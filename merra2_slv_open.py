@@ -47,12 +47,12 @@ for file in files:
         for hr in range(0, 23):
             hour_dt = netCDF4.num2date(time[hr], time.units, only_use_cftime_datetimes=False)
             hour_str = datetime.datetime.strftime(hour_dt, '%Y-%m-%dT%H:%M:%S')
-            hr_U2M = np.average(U2M[hr])
-            hr_T2M = np.average(T2M[hr])
-            hr_PS = np.average(PS[hr])
-            hr_T10M = np.average(T10M[hr])
-            hr_V2M = np.average(V2M[hr])
-            hr_QV2M = np.average(QV2M[hr])
+            hr_U2M = (U2M[hr][7][7])
+            hr_T2M = (T2M[hr][7][7])
+            hr_PS = (PS[hr][7][7])
+            hr_T10M = (T10M[hr][7][7])
+            hr_V2M = (V2M[hr][7][7])
+            hr_QV2M = (QV2M[hr][7][7])
 
             new_row = pd.Series({'date': hour_str, 'U2M': hr_U2M, 'T2M': hr_T2M, 'PS': hr_PS, 'T10M': hr_T10M, 'V2M': hr_V2M, 'QV2M': hr_QV2M})
             f_csv = f_csv.append(new_row, ignore_index=True)
