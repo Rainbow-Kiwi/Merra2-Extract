@@ -11,8 +11,9 @@ import csv
 # filename = "MERRA2_100.tavg1_2d_lnd_Nx.19910101.nc4.nc4"
 # mf = netCDF4.Dataset(filepath+filename, "r", format="NETCDF4")
 
-fp = "/media/rina/Seagate Backup Plus Drive/merra2/tavg1_2d_lnd_Nx/"
-output = "/media/rina/Seagate Backup Plus Drive/merra2/tavg1_2d_lnd_Nx_data_point.csv"
+fp = "/media/sf_E_DRIVE/merra2/tavg1_2d_lnd_Nx/"
+# output = "/media/sf_E_DRIVE/merra2/tavg1_2d_lnd_Nx_data_point.csv"
+output = "/media/sf_E_DRIVE/merra2/tavg1_2d_lnd_Nx_RJA.csv"
 # mf = xr.open_mfdataset("/media/rina/Seagate Backup Plus Drive/practicemerra/*.nc4", concat_dim="time")
 
 #make dataframe to turn into csv
@@ -20,7 +21,7 @@ f_csv = pd.DataFrame(columns = ['date', 'SWLAND', 'PRECTOTLAND', 'LHLAND', 'SHLA
 
 #opening all files (true run)
 failed_list = []
-temp_files = os.listdir("/media/rina/Seagate Backup Plus Drive/merra2/tavg1_2d_lnd_Nx/")
+temp_files = os.listdir("/media/sf_E_DRIVE/merra2/tavg1_2d_lnd_Nx/")
 files = []
 for temp_file in temp_files:
     files.append(temp_file)
@@ -51,6 +52,19 @@ for file in files:
         for hr in range(0, 23):
             hour_dt = netCDF4.num2date(time[hr], time.units, only_use_cftime_datetimes=False)
             hour_str = datetime.datetime.strftime(hour_dt, '%Y-%m-%dT%H:%M:%S')
+            # hour lat lon
+            # -11, -62.5
+            # hr_SWLAND = (SWLAND[hr][5][6])
+            # hr_PRECTOTLAND = (PRECTOTLAND[hr][5][6])
+            # hr_LHLAND = (LHLAND[hr][5][6])
+            # hr_SHLAND = (SHLAND[hr][5][6])
+            # hr_GWETTOP = (GWETTOP[hr][5][6])
+            # hr_LWLAND = (LWLAND[hr][5][6])
+            # hr_EVLAND = (EVLAND[hr][5][6])
+            # hr_LAI = (LAI[hr][5][6])
+            # hr_GWETROOT = (GWETROOT[hr][5][6])
+            # hr_RZMC = (RZMC[hr][5][6])
+            # -10, -61.875
             hr_SWLAND = (SWLAND[hr][7][7])
             hr_PRECTOTLAND = (PRECTOTLAND[hr][7][7])
             hr_LHLAND = (LHLAND[hr][7][7])
@@ -61,6 +75,7 @@ for file in files:
             hr_LAI = (LAI[hr][7][7])
             hr_GWETROOT = (GWETROOT[hr][7][7])
             hr_RZMC = (RZMC[hr][7][7])
+
 
             new_row = pd.Series({'date': hour_str, 'SWLAND': hr_SWLAND, 'PRECTOTLAND': hr_PRECTOTLAND, 'LHLAND': hr_LHLAND, 'SHLAND': hr_SHLAND, 'GWETTOP': hr_GWETTOP, 'LWLAND': hr_LWLAND, 'EVLAND': hr_EVLAND, 'LAI': hr_LAI, 'GWETROOT': hr_GWETROOT, 'RZMC': hr_RZMC})
             f_csv = f_csv.append(new_row, ignore_index=True)

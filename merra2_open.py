@@ -11,8 +11,9 @@ import csv
 # filename = "MERRA2_100.tavg1_2d_rad_Nx.19910101.nc4.nc4"
 # mf = netCDF4.Dataset(filepath+filename, "r", format="NETCDF4")
 
-fp = "/media/rina/Seagate Backup Plus Drive/merra2/tavg1_2d_rad_nx/"
-output = "/media/rina/Seagate Backup Plus Drive/merra2/tavg1_2d_rad_nx_data_point.csv"
+fp = "/media/sf_E_DRIVE/merra2/tavg1_2d_rad_nx/"
+# output = "/media/sf_E_DRIVE/merra2/tavg1_2d_rad_nx_data_point.csv"
+output = "/media/sf_E_DRIVE/merra2/tavg1_2d_rad_nx_RJA.csv"
 # mf = xr.open_mfdataset("/media/rina/Seagate Backup Plus Drive/practicemerra/*.nc4", concat_dim="time")
 
 #make dataframe to turn into csv
@@ -20,7 +21,7 @@ f_csv = pd.DataFrame(columns = ['date', 'LWGAB', 'SWGNT', 'ALBEDO', 'LWGNT', 'SW
 
 #opening all files (true run)
 failed_list = []
-temp_files = os.listdir("/media/rina/Seagate Backup Plus Drive/merra2/tavg1_2d_rad_nx/")
+temp_files = os.listdir("/media/sf_E_DRIVE/merra2/tavg1_2d_rad_nx/")
 files = []
 for temp_file in temp_files:
     files.append(temp_file)
@@ -47,6 +48,19 @@ for file in files:
         for hr in range(0, 23):
             hour_dt = netCDF4.num2date(time[hr], time.units, only_use_cftime_datetimes=False)
             hour_str = datetime.datetime.strftime(hour_dt, '%Y-%m-%dT%H:%M:%S')
+
+            # change the indices as according to what coordinates are needed.
+            # check the files to see what index the coordinates are.
+
+            # hour lat lon
+            # -11, -62.5
+            # hr_LWGAB = (LWGAB[hr][5][6])
+            # hr_SWGNT = (SWGNT[hr][5][6])
+            # hr_ALBEDO = (ALBEDO[hr][5][6])
+            # hr_LWGNT = (LWGNT[hr][5][6])
+            # hr_SWGDN = (SWGDN[hr][5][6])
+            # hr_LWGEM = (LWGEM[hr][5][6])
+            # -10, -61.875
             hr_LWGAB = (LWGAB[hr][7][7])
             hr_SWGNT = (SWGNT[hr][7][7])
             hr_ALBEDO = (ALBEDO[hr][7][7])
